@@ -1,0 +1,20 @@
+{
+  "name": "imaginea-free-trial-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler pages dev ./public --compatibility-date=2025-01-15",
+    "dev:functions": "wrangler pages dev ./public --compatibility-date=2025-01-15 --local --persist-to=./.wrangler/state",
+    "deploy": "wrangler pages deploy ./public",
+    "cf:types": "echo \"Cloudflare Workers environment provides types globally; ensure TS set to moduleResolution bundler.\""
+  },
+  "dependencies": {
+    "standardwebhooks": "^1.0.0",
+    "uuid": "^11.0.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "wrangler": "^3.80.0"
+  }
+}

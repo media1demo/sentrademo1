@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "include": [
+    "/",
+    "/track",
+    "/api/*",
+    "/checkout"
+  ],
+  "exclude": [
+    "/index.html",
+    "/login.html",
+    "/signup.html",
+    "/favicon.ico",
+    "/apple-touch-icon.png",
+    "/manifest.webmanifest",
+    "/robots.txt",
+    "/sitemap.xml",
+    "/assets/*",
+    "/public/*",
+    "/*.css",
+    "/*.js",
+    "/*.mjs",
+    "/*.map",
+    "/*.svg",
+    "/*.png",
+    "/*.jpg",
+    "/*.jpeg",
+    "/*.gif",
+    "/*.webp",
+    "/*.ico",
+    "/cdn-cgi/*"
+  ]
+}

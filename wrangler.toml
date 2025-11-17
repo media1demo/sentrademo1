@@ -1,0 +1,45 @@
+# Cloudflare Pages + Functions configuration
+# Replace IDs for D1 and KV after creating them in the Cloudflare Dashboard.
+name = "imaginea-free-trial-app"
+compatibility_date = "2025-01-15"
+pages_build_output_dir = "public"
+
+# Environment variables (set real values in Dashboard for Production)
+# For local dev you can set a .dev.vars file or use `wrangler secret put`
+[vars]
+# Dodo Payments
+DODO_API_BASE = "https://test.dodopayments.com"   # switch to https://live.dodopayments.com for production
+DODO_API_KEY = "7t-SFMf1FUp7psLG.TYE8AdlXLjhpNpUrTijp00LSwHwEmcqcCSU3_mAQ7mWAuB5p"
+DODO_WEBHOOK_SECRET = "whsec_hn5ePoigj9xDVFeKIMLm3mBGutdOuKzj"                 # Use the signing secret (starts with whsec_), not the endpoint id
+DODO_WEBHOOK_SECRETS = "whsec_hn5ePoigj9xDVFeKIMLm3mBGutdOuKzj,whsec_r+wRpBTHEpVTm0WBLq+LzQjwWU9eSfAq"  # support multiple endpoints (/api/webhooks/dodo and /api/webhook)
+PRODUCT_ID = "pdt_E0BVVRexpQd9Gk53dsqSq"                                    # subscription product id (recurring) in Dodo sandbox
+RETURN_URL = "https://free.imaginea.store/track"   # post-checkout landing (as requested)
+
+# Sessions
+SESSION_COOKIE_NAME = "imaginea_session"
+SESSION_TTL_SECONDS = "2592000"                    # 30 days
+
+# CORS / Cookies
+COOKIE_DOMAIN = "free.imaginea.store"
+COOKIE_SECURE = "true"
+COOKIE_SAMESITE = "Lax"
+
+# Bind D1 (SQL) for users
+[[d1_databases]]
+binding = "DB"
+database_name = "imaginea_db"
+# Replace with your real database_id from Cloudflare Dashboard
+database_id = "b61f6cbe-0bf6-4b46-ab73-e560afe6a382"
+migrations_dir = "migrations"
+
+# Bind KV for sessions
+[[kv_namespaces]]
+binding = "SESSIONS_KV"
+# Replace with your real KV ids from Cloudflare Dashboard
+id = "965615f47dbf4c67bb691d728e1b3476"
+preview_id = "00000000000000000000000000000000"
+
+# Notes:
+# - For Pages projects, configure the production environment variables and bindings in the Cloudflare Dashboard.
+# - For local development, Wrangler will simulate D1 and KV. Run with:
+#   npm run dev:functions

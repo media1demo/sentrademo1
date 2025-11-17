@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Log In — Imaginea</title>
+  <style>
+    :root{color-scheme:light dark}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;line-height:1.45}
+    .header{padding:16px;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;align-items:center}
+    .container{max-width:880px;margin:24px auto;padding:0 16px}
+    .card{border:1px solid #ddd;border-radius:12px;padding:20px}
+    h1{font-size:1.5rem;margin:0 0 12px}
+    p{margin:8px 0}
+    label{display:block;margin:10px 0 6px}
+    input{width:100%;padding:10px;border:1px solid #bbb;border-radius:8px}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:8px;background:#1f6feb;color:#fff;border:none;border-radius:8px;padding:10px 14px;font-weight:600;cursor:pointer}
+    .btn.secondary{background:#6e7781}
+    .small{opacity:.75}
+    .error{color:#b00020}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div><strong>Imaginea</strong> <span class="small">Free trial with Dodo Payments</span></div>
+    <nav class="row">
+      <a class="btn secondary" href="/index.html">Home</a>
+      <a class="btn" href="/signup.html">Create Account</a>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="card">
+      <h1>Log In</h1>
+      <p class="small">Use your email or phone number and password.</p>
+      <form id="loginForm">
+        <label for="identifier">Email or Phone</label>
+        <input id="identifier" name="identifier" type="text" autocomplete="username" required />
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required />
+        <div class="row" style="margin-top:12px">
+          <button class="btn" type="submit">Log In</button>
+          <a class="btn secondary" href="/signup.html">Create Account</a>
+        </div>
+        <p id="err" class="error" style="display:none;margin-top:10px"></p>
+      </form>
+    </div>
+  </main>
+  <script>
+    const form = document.getElementById('loginForm');
+    const err = document.getElementById('err');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.style.display = 'none';
+      try {
+        const body = {
+          identifier: document.getElementById('identifier').value.trim(),
+          password: document.getElementById('password').value
+        };
+        const r = await fetch('/api/login', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          credentials: 'include',
+          body: JSON.stringify(body)
+        });
+        const j = await r.json();
+        if (!r.ok) throw new Error(j.error || 'Login failed');
+        location.href = '/track';
+      } catch (e) {
+        err.textContent = e.message || 'Login failed';
+        err.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
